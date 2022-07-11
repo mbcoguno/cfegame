@@ -3,6 +3,7 @@
 import "@hotwired/turbo-rails"
 import "jquery"
 import "jquery-ujs"
+import "popper"
 import "bootstrap"
 import { run, hidden_alert } from "games"
 
