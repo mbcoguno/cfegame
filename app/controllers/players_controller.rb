@@ -90,6 +90,7 @@ class PlayersController < ApplicationController
   def must_be_my_turn
     @game = Game.find(params[:game_id])
     @player = Player.find(params[:id])
+    Rails.logger.info "Player: #{@player.id}, Game: #{@game.id}, Turn Player: #{@game.turn_player.id}, Turn: #{@game.turn}"
     unless @game.turn_player == @player
       render nothing: true, status: :forbidden
     end

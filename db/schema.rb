@@ -102,6 +102,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_05_31_144928) do
     t.integer "life", default: 200
     t.integer "life_limit", default: 200
     t.integer "star", default: 0
+    t.integer "sequence"
     t.string "annex"
     t.integer "maximum", default: 1
     t.integer "game_id"

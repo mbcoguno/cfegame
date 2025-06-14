@@ -1,5 +1,5 @@
 class Game < ApplicationRecord
-  has_many :teams, dependent: :destroy
+  has_many :teams, -> { order(:sequence) }, dependent: :destroy
   has_many :players, -> { order(:sequence) }, through: :teams
   has_many :cards, as: :cardholder, dependent: :destroy
   has_many :turns, -> { order(:number) }, dependent: :destroy
@@ -12,8 +12,8 @@ class Game < ApplicationRecord
     game = self.create!( game_options )
     team_amount ||= game.team_amount
     teams = game.teams
-    team_amount.times do
-      teams.create( team_options )
+    team_amount.times do |i|
+      teams.create(team_options.merge(sequence: i))
     end
     game.deck = Deck.new
     game.deck.shuffle true
@@ -22,7 +22,7 @@ class Game < ApplicationRecord
 
   def join_with( user, team )
     if team.position_available?
-      team_index = teams.find_index team
+      team_index = team.sequence
       sequence = team_index + teams.count * team.players.count
       player = team.players.create sequence: sequence
       user.players << player
