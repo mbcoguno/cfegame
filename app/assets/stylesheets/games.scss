@@ -59,6 +59,9 @@ table {
 
 #player, #opponent {
   height: $player-height;
+  &.current {
+    border: solid 3px red;
+  }
 }
 
 .hand {

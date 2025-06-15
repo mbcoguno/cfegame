@@ -11,8 +11,8 @@ export class GameField {
       ( game_data.winning ? "You Win!" : "You Lose" ) :
       ( game_data.myturn ? "Your Turn" : "Opponent Turn" );
     $("#message_field").text( message );
-    this.display_player( true, game_data.current );
-    this.display_player( false, game_data.opponent );
+    this.display_player(true, game_data.current, game_data.myturn);
+    this.display_player(false, game_data.opponent, game_data.myturn);
     $("#field").text(game_data.field);
     $("#choose .modal-body").empty().append( this.generate_card_list( game_data.choices, true, false ) );
     $("#moves .row").empty().append( this.generate_rule_list( game_data.possible_moves ) );
@@ -62,7 +62,7 @@ export class GameField {
     }
   }
 
-  display_player( is_current, data ){
+  display_player(is_current, data, myturn){
     var html_id;
     var visible;
     var action_cards;
@@ -91,7 +91,14 @@ export class GameField {
     $(html_id + " .used").empty().append(used_cards);
     $(html_id + " .star_history").empty().append(this.generate_star_history(data.members[0].star_history));
     $(html_id + " .current_star").empty().append($("<div>").text("★").addClass("star " + data.star));
-    $(html_id + " .hero").text(hero)
+    $(html_id + " .hero").text(hero);
+    if (myturn) {
+      $("#player").addClass("current");
+      $("#opponent").removeClass("current");
+    } else {
+      $("#opponent").addClass("current");
+      $("#player").removeClass("current");
+    }
   }
 
   generate_star_history( star_history ){
